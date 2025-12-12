@@ -35,8 +35,8 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '677613505365495');
-    fbq('track', 'PageView');
+    // fbq('init', '677613505365495'); // Comentado para evitar erros no preview se bloqueado
+    // fbq('track', 'PageView');
     </script>
     <noscript>
     <img height="1" width="1" style="display:none"
@@ -170,7 +170,7 @@
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 text-mocha-800 text-sm font-medium tracking-wide">
                         <div class="flex items-center gap-3 bg-white/60 px-6 py-3 rounded-full border border-white shadow-sm backdrop-blur-sm">
                             <i class="fa-regular fa-calendar text-mocha-500 text-lg"></i>
-                            <span>18/12</span>
+                            <span>16/12</span>
                         </div>
                         <div class="flex items-center gap-3 bg-white/60 px-6 py-3 rounded-full border border-white shadow-sm backdrop-blur-sm">
                             <i class="fa-regular fa-clock text-mocha-500 text-lg"></i>
@@ -363,6 +363,35 @@
         </div>
     </footer>
 
+    <!-- AVISO LGPD -->
+    <section class="bg-black py-8 border-t border-gray-900">
+        <div class="container mx-auto px-4 max-w-5xl text-justify md:text-center">
+            <h5 class="text-gray-500 font-bold text-[10px] uppercase tracking-[0.2em] mb-4 text-center">Aviso de Privacidade e Conformidade LGPD</h5>
+            
+            <div class="text-[10px] md:text-xs text-gray-600 font-sans font-light leading-relaxed space-y-3">
+                <p>
+                    <strong class="text-gray-500">Transparência e Segurança:</strong> A sua privacidade é nossa prioridade. Este site e o evento "Aula Secreta" operam em estrita conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).
+                </p>
+                
+                <p>
+                    <strong class="text-gray-500">Coleta e Uso de Dados:</strong> Ao clicar no botão de inscrição, você autoriza a coleta do seu nome, e-mail e número de telefone. Estes dados têm a finalidade exclusiva de viabilizar sua participação no evento, permitindo o envio do link de acesso à aula, materiais de apoio didático e comunicações pertinentes ao seu desenvolvimento profissional e de carreira.
+                </p>
+                
+                <p>
+                    <strong class="text-gray-500">Seus Direitos:</strong> Seus dados jamais serão comercializados, alugados ou compartilhados com terceiros para fins publicitários sem o seu consentimento expresso. Você possui o direito absoluto de solicitar o acesso, correção ou a exclusão total dos seus dados de nossa base a qualquer momento, bem como de revogar o seu consentimento. Para exercer esses direitos, entre em contato através do nosso canal oficial de DPO.
+                </p>
+
+                <p>
+                    <strong class="text-gray-500">WhatsApp:</strong> A participação no Grupo VIP do WhatsApp é totalmente voluntária. Ao ingressar, você entende que seu número de telefone poderá ser visualizado pelos administradores do grupo para fins de gerenciamento e envio de avisos. Você é livre para sair do grupo a qualquer instante.
+                </p>
+
+                <p class="pt-2 border-t border-gray-900 mt-2 text-center text-gray-700">
+                    Ao prosseguir, você declara estar ciente e de acordo com nossos Termos e <span class="underline cursor-pointer hover:text-gray-500 transition-colors">[Política de Privacidade]</span>.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- LOGICA SUPABASE + FORM -->
     <script>
         const supabaseUrl = "https://hpscbdlksssmnazbqanz.supabase.co";
@@ -384,9 +413,9 @@
             const phone = document.querySelector("#phone").value;
 
             try {
-                if(typeof fbq !== 'undefined') {
-                    fbq('track', 'Lead');
-                }
+                // if(typeof fbq !== 'undefined') {
+                //     fbq('track', 'Lead');
+                // }
 
                 const { data, error } = await supabaseClient
                     .from('lidera') 
