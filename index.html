@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Configurações para WhatsApp e Redes Sociais (Open Graph) -->
     <title>Aula Secreta | Destravando sua Comunicação</title>
+    <meta name="description" content="Evento Online e Gratuito. Entenda como usar sua comunicação para destravar o próximo nível da sua carreira.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Aula Secreta | Destravando sua Comunicação">
+    <meta property="og:description" content="Garanta sua vaga gratuita neste evento exclusivo. Descubra os 4 pilares da comunicação real.">
+    <meta property="og:site_name" content="Aula Secreta">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,10 +22,10 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Supabase SDK (Snippet 1) -->
+    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
-    <!-- Meta Pixel Code (Snippet 3) -->
+    <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -46,20 +54,20 @@
                     },
                     colors: {
                         nude: {
-                            50: '#f9f8f6', // Fundo Principal
-                            100: '#f2f0eb', // Fundo Secundário
+                            50: '#f9f8f6',
+                            100: '#f2f0eb',
                             200: '#e6e2db',
                             300: '#d1cdc7',
                             800: '#7a7570',
-                            900: '#2b2623', // Texto Quase Preto
+                            900: '#2b2623',
                         },
                         mocha: {
                             100: '#ebe5e1',
                             300: '#c7b29f',
-                            400: '#a88f78', // Bronze/Bege Escuro
-                            500: '#8c735a', // Tom Médio
-                            600: '#6d5543', // Marrom da Imagem
-                            800: '#4a3b32', // Botões
+                            400: '#a88f78',
+                            500: '#8c735a',
+                            600: '#6d5543',
+                            800: '#4a3b32',
                             900: '#362b24',
                         }
                     },
@@ -243,7 +251,7 @@
         </div>
     </section>
 
-    <!-- STORYTELLING -->
+    <!-- STORYTELLING (Atualizado com FOTO) -->
     <section class="py-24 relative bg-white">
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-5xl mx-auto">
@@ -268,19 +276,28 @@
                         </p>
                     </div>
                     
-                    <div class="bg-nude-50 p-10 rounded-2xl text-center border border-nude-200 relative">
-                        <div class="absolute -top-4 -right-4 text-8xl text-mocha-100 font-serif opacity-50">"</div>
+                    <!-- FOTO DO EXPERT (Aqui é a mudança) -->
+                    <div class="relative">
+                        <!-- Moldura Decorativa -->
+                        <div class="absolute -inset-4 border border-mocha-200 rounded-2xl -z-10 translate-x-2 translate-y-2"></div>
                         
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-8 text-mocha-400">
-                            <i class="fa-solid fa-microphone-slash text-2xl"></i>
+                        <!-- Container da Foto -->
+                        <div class="bg-nude-50 rounded-xl overflow-hidden shadow-lg border border-nude-200 aspect-[4/5] relative group">
+                            <!-- Foto (substitua 'foto.jpg' pelo seu arquivo) -->
+                            <img src="foto.jpg" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" 
+                                 alt="Foto do Especialista" 
+                                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                            
+                            <!-- Overlay sutil -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-mocha-900/40 to-transparent opacity-60"></div>
+                            
+                            <!-- Nome/Cargo (Opcional) -->
+                            <div class="absolute bottom-6 left-6 text-white">
+                                <p class="font-serif text-xl tracking-wide">Sua Mentora</p>
+                                <p class="text-xs uppercase tracking-widest opacity-80">Especialista em Comunicação</p>
+                            </div>
                         </div>
-                        
-                        <h3 class="text-3xl font-serif text-mocha-900 mb-6 italic">Sua voz já falhou?</h3>
-                        <p class="text-mocha-600 mb-10 font-light">Hoje guio profissionais que acreditam que <br><span class="font-medium text-mocha-800">"não têm o dom da fala"</span>.</p>
-                        
-                        <a href="#leadForm" class="inline-flex items-center gap-2 text-mocha-800 hover:text-mocha-600 transition-colors font-medium text-sm tracking-widest uppercase border-b border-mocha-800 hover:border-mocha-600 pb-1">
-                            Descobrir o Caminho <i class="fa-solid fa-arrow-right text-xs"></i>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -348,7 +365,6 @@
 
     <!-- LOGICA SUPABASE + FORM -->
     <script>
-        // Configuração do Supabase
         const supabaseUrl = "https://hpscbdlksssmnazbqanz.supabase.co";
         const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhwc2NiZGxrc3NzbW5hemJxYW56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0OTE3MTEsImV4cCI6MjA4MTA2NzcxMX0.iRo9leh6Q9geVU6sVeSqiLp0RD3q8Uv_Ip7bFvPAegA";
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
@@ -356,27 +372,22 @@
         async function handleSubmit(event) {
             event.preventDefault();
 
-            // Referências aos elementos
             const btn = event.target.querySelector('button');
             const originalBtnText = btn.innerHTML;
             
-            // Estado de carregamento
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Garantindo Vaga...';
             btn.disabled = true;
             btn.classList.add('opacity-75', 'cursor-not-allowed');
 
-            // Captura valores
             const name = document.querySelector("#name").value;
             const email = document.querySelector("#email").value;
             const phone = document.querySelector("#phone").value;
 
             try {
-                // 1. Rastreamento (Pixel)
                 if(typeof fbq !== 'undefined') {
                     fbq('track', 'Lead');
                 }
 
-                // 2. Salvar no Supabase
                 const { data, error } = await supabaseClient
                     .from('lidera') 
                     .insert([{ 
@@ -387,25 +398,18 @@
 
                 if (error) throw error;
 
-                // 3. Sucesso Visual e Esconder Form
                 document.querySelector('#leadForm').style.display = 'none';
                 const header = document.querySelector('#formHeader');
                 if(header) header.style.display = 'none';
 
-                // Mostra a tela de sucesso
                 const successMsg = document.querySelector('#successMessage');
                 successMsg.classList.remove('hidden');
                 successMsg.classList.add('flex');
 
-                // 4. Redirecionamento com Fallback e Nova Aba
-                // Usamos window.open com '_blank' para evitar bloqueios de iframe
                 const waLink = "https://chat.whatsapp.com/JTvmxbWhPjRAIkvXwLurzD";
                 
                 setTimeout(() => {
-                    // Tenta abrir automaticamente em nova aba
                     const newWindow = window.open(waLink, '_blank');
-                    
-                    // Se o bloqueador de popup impedir, o usuário ainda tem o botão na tela
                     if(!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
                         console.log("Popup bloqueado, usuário deve clicar no botão");
                     }
@@ -414,14 +418,12 @@
             } catch (error) {
                 console.error("Erro Supabase:", error);
                 
-                // Tratamento específico para erro de tabela inexistente
                 if (error.code === 'PGRST205') {
-                    alert("ERRO DE BANCO DE DADOS: A tabela 'lidera' não foi encontrada.\n\nVocê precisa rodar o script SQL fornecido no Editor SQL do Supabase para criar a tabela.");
+                    alert("ERRO DE BANCO DE DADOS: A tabela 'lidera' não foi encontrada. Verifique o Supabase.");
                 } else {
                     alert("Erro ao realizar inscrição: " + (error.message || "Tente novamente."));
                 }
                 
-                // Restaura botão em caso de erro
                 btn.innerHTML = originalBtnText;
                 btn.disabled = false;
                 btn.classList.remove('opacity-75', 'cursor-not-allowed');
