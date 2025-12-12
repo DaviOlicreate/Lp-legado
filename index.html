@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Secreta | Destravando sua Comunicação</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase SDK (Snippet 1) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <!-- Meta Pixel Code (Snippet 3) -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '677613505365495');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=677613505365495&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                    },
+                    colors: {
+                        nude: {
+                            50: '#f9f8f6', // Fundo Principal
+                            100: '#f2f0eb', // Fundo Secundário
+                            200: '#e6e2db',
+                            300: '#d1cdc7',
+                            800: '#7a7570',
+                            900: '#2b2623', // Texto Quase Preto
+                        },
+                        mocha: {
+                            100: '#ebe5e1',
+                            300: '#c7b29f',
+                            400: '#a88f78', // Bronze/Bege Escuro
+                            500: '#8c735a', // Tom Médio
+                            600: '#6d5543', // Marrom da Imagem
+                            800: '#4a3b32', // Botões
+                            900: '#362b24',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'fadeInUp': {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        .bg-luxury-clean {
+            background-color: #f9f8f6;
+            background-image: linear-gradient(to bottom right, #f9f8f6 0%, #f2f0eb 100%);
+        }
+
+        .text-mocha-gradient {
+            background: linear-gradient(135deg, #6d5543 0%, #a88f78 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-panel-luxury {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px -12px rgba(109, 85, 67, 0.1);
+        }
+        
+        .input-luxury {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e6e2db;
+            transition: all 0.3s ease;
+            color: #4a3b32;
+        }
+        
+        .input-luxury:focus {
+            background: #fff;
+            border-color: #a88f78;
+            box-shadow: 0 0 0 4px rgba(168, 143, 120, 0.1);
+        }
+        
+        .input-luxury::placeholder {
+            color: #a89f91;
+        }
+    </style>
+</head>
+<body class="font-sans text-nude-900 antialiased bg-luxury-clean min-h-screen flex flex-col">
+
+    <!-- HEADER SIMPLES -->
+    <header class="w-full py-6 absolute top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-infinity text-mocha-600 text-3xl opacity-80"></i>
+                <span class="text-lg md:text-xl font-serif font-bold text-mocha-800 tracking-[0.2em] uppercase">
+                    Aula Secreta
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden z-10">
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-b from-white to-transparent opacity-60 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/4"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-mocha-100/40 rounded-full blur-3xl pointer-events-none translate-y-1/4 -translate-x-1/4"></div>
+
+        <div class="container mx-auto px-4 md:px-8 relative">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                
+                <!-- COPYWRITING HERO -->
+                <div class="w-full lg:w-3/5 text-center lg:text-left animate-fade-in-up">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-8 text-xs font-semibold tracking-widest text-mocha-600 uppercase bg-white rounded-full border border-mocha-100 shadow-sm">
+                        <span class="w-1.5 h-1.5 rounded-full bg-mocha-600 animate-pulse"></span>
+                        Evento Online e Gratuito
+                    </div>
+                    
+                    <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 text-mocha-900 tracking-tight">
+                        <span class="block text-2xl md:text-3xl font-light mb-2 text-mocha-600 tracking-wide">AULA SECRETA</span>
+                        <span class="text-mocha-gradient block leading-[1.1]">DESTRAVANDO SUA<br class="md:hidden"> COMUNICAÇÃO</span>
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-nude-800 font-light leading-relaxed mb-10 border-l-2 border-mocha-300 pl-6 py-1 max-w-2xl lg:mx-0 mx-auto">
+                        Entenda de uma vez por todas como usar sua comunicação para destravar o próximo nível da sua carreira.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 text-mocha-800 text-sm font-medium tracking-wide">
+                        <div class="flex items-center gap-3 bg-white/60 px-6 py-3 rounded-full border border-white shadow-sm backdrop-blur-sm">
+                            <i class="fa-regular fa-calendar text-mocha-500 text-lg"></i>
+                            <span>18/12</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white/60 px-6 py-3 rounded-full border border-white shadow-sm backdrop-blur-sm">
+                            <i class="fa-regular fa-clock text-mocha-500 text-lg"></i>
+                            <span>19:00 (Brasília)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORMULÁRIO -->
+                <div class="w-full lg:w-2/5 max-w-md mx-auto relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-mocha-300 to-nude-200 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                    
+                    <div class="glass-panel-luxury rounded-2xl p-8 md:p-10 relative">
+                        
+                        <div class="text-center mb-8" id="formHeader">
+                            <h3 class="text-2xl font-serif font-bold text-mocha-900 mb-2">Garanta sua Vaga</h3>
+                            <div class="w-12 h-1 bg-mocha-300 mx-auto rounded-full mb-3"></div>
+                            <p class="text-sm text-mocha-600 font-light">Preencha para receber o link exclusivo.</p>
+                        </div>
+
+                        <form id="leadForm" class="space-y-5" onsubmit="handleSubmit(event)">
+                            <div>
+                                <label class="sr-only">Nome</label>
+                                <div class="relative group/input">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <i class="fa-regular fa-user text-mocha-400 group-focus-within/input:text-mocha-600 transition-colors"></i>
+                                    </div>
+                                    <input type="text" id="name" required class="input-luxury block w-full pl-11 pr-4 py-4 rounded-xl outline-none text-sm" placeholder="Nome completo">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="sr-only">E-mail</label>
+                                <div class="relative group/input">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <i class="fa-regular fa-envelope text-mocha-400 group-focus-within/input:text-mocha-600 transition-colors"></i>
+                                    </div>
+                                    <input type="email" id="email" required class="input-luxury block w-full pl-11 pr-4 py-4 rounded-xl outline-none text-sm" placeholder="Seu melhor e-mail">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="sr-only">Telefone</label>
+                                <div class="relative group/input">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <i class="fa-brands fa-whatsapp text-mocha-400 group-focus-within/input:text-mocha-600 transition-colors"></i>
+                                    </div>
+                                    <input type="tel" id="phone" class="input-luxury block w-full pl-11 pr-4 py-4 rounded-xl outline-none text-sm" placeholder="WhatsApp">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-mocha-800 hover:bg-mocha-900 text-white font-medium py-4 px-6 rounded-xl transition-all transform hover:-translate-y-0.5 shadow-lg shadow-mocha-900/10 text-sm uppercase tracking-widest mt-2 border border-transparent hover:border-mocha-700">
+                                Confirmar Presença
+                            </button>
+                            
+                            <p class="text-xs text-center text-mocha-400 flex items-center justify-center gap-1 mt-4">
+                                <i class="fa-solid fa-lock text-[10px]"></i> Seus dados estão seguros
+                            </p>
+                        </form>
+
+                        <!-- Feedback de Sucesso com Botão -->
+                        <div id="successMessage" class="hidden absolute inset-0 bg-white/95 backdrop-blur-md flex-col items-center justify-center text-center p-6 z-20 rounded-2xl animate-fade-in-up">
+                            <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fa-solid fa-check text-xl text-green-600"></i>
+                            </div>
+                            <h3 class="text-xl font-serif font-bold text-mocha-900 mb-2">Inscrição Confirmada!</h3>
+                            <p class="text-mocha-600 text-sm leading-relaxed mb-6 px-4">Falta pouco! Entre no Grupo VIP para receber o link da aula.</p>
+                            
+                            <a href="https://chat.whatsapp.com/JTvmxbWhPjRAIkvXwLurzD" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-green-900/20 flex items-center gap-2 transform hover:-translate-y-1 w-full justify-center">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                                Entrar no Grupo VIP
+                            </a>
+                            <p class="text-xs text-mocha-400 mt-4">Clique no botão acima se não abrir automaticamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORYTELLING -->
+    <section class="py-24 relative bg-white">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-20">
+                    <h2 class="font-serif text-4xl md:text-5xl font-medium text-mocha-900 mb-6 leading-tight">
+                        "O dia em que minha voz <span class="italic text-mocha-500 font-serif">falhou...</span>"
+                    </h2>
+                    <p class="text-nude-800 text-lg font-light tracking-wide">E como o silêncio mudou tudo.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-8 text-lg text-mocha-800 font-light leading-relaxed">
+                        <p>
+                            Eu tinha uma apresentação simples pra fazer. Estava tudo pronto na minha cabeça. Mas quando chegou a minha vez... <strong class="text-mocha-900 font-semibold bg-nude-100 px-1">o som simplesmente não saiu.</strong>
+                        </p>
+                        <div class="border-l-2 border-mocha-400 pl-8 py-2">
+                            <h3 class="text-2xl font-serif text-mocha-900 mb-3">Travei. Tremi. Esqueci.</h3>
+                            <p class="text-mocha-600 text-base">Senti aquela mistura amarga de vergonha e impotência que talvez você conheça bem.</p>
+                        </div>
+                        <p>
+                            Naquele dia, entendi uma verdade dura: eu <span class="text-mocha-600 font-medium border-b border-mocha-300">não nasci pronta</span>. E coragem não seria suficiente. Eu precisava de técnica.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-nude-50 p-10 rounded-2xl text-center border border-nude-200 relative">
+                        <div class="absolute -top-4 -right-4 text-8xl text-mocha-100 font-serif opacity-50">"</div>
+                        
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-8 text-mocha-400">
+                            <i class="fa-solid fa-microphone-slash text-2xl"></i>
+                        </div>
+                        
+                        <h3 class="text-3xl font-serif text-mocha-900 mb-6 italic">Sua voz já falhou?</h3>
+                        <p class="text-mocha-600 mb-10 font-light">Hoje guio profissionais que acreditam que <br><span class="font-medium text-mocha-800">"não têm o dom da fala"</span>.</p>
+                        
+                        <a href="#leadForm" class="inline-flex items-center gap-2 text-mocha-800 hover:text-mocha-600 transition-colors font-medium text-sm tracking-widest uppercase border-b border-mocha-800 hover:border-mocha-600 pb-1">
+                            Descobrir o Caminho <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÉTODO -->
+    <section class="py-24 bg-nude-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-20">
+                <span class="text-mocha-500 uppercase tracking-[0.2em] text-xs font-bold mb-4 block">A Metodologia</span>
+                <h2 class="text-3xl md:text-4xl font-serif text-mocha-900">Comunicação <span class="italic font-light">Real</span></h2>
+                <p class="text-mocha-600 mt-6 max-w-2xl mx-auto font-light text-lg">Pouco a pouco, minha voz voltou — mais forte, baseada em 4 pilares.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <div class="bg-white p-8 rounded-xl border border-transparent hover:border-mocha-200 shadow-sm hover:shadow-lg transition-all duration-500 group">
+                    <div class="w-12 h-12 bg-nude-50 rounded-full flex items-center justify-center text-mocha-400 mb-6 group-hover:bg-mocha-800 group-hover:text-white transition-all duration-500">
+                        <i class="fa-solid fa-brain text-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-serif text-mocha-900 mb-3">Controle</h3>
+                    <p class="text-sm text-mocha-600 font-light leading-relaxed">Dominar o medo antes que ele domine sua fala.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-transparent hover:border-mocha-200 shadow-sm hover:shadow-lg transition-all duration-500 group">
+                    <div class="w-12 h-12 bg-nude-50 rounded-full flex items-center justify-center text-mocha-400 mb-6 group-hover:bg-mocha-800 group-hover:text-white transition-all duration-500">
+                        <i class="fa-solid fa-lungs text-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-serif text-mocha-900 mb-3">Respiração</h3>
+                    <p class="text-sm text-mocha-600 font-light leading-relaxed">A base fisiológica para projetar uma voz segura e constante.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-transparent hover:border-mocha-200 shadow-sm hover:shadow-lg transition-all duration-500 group">
+                    <div class="w-12 h-12 bg-nude-50 rounded-full flex items-center justify-center text-mocha-400 mb-6 group-hover:bg-mocha-800 group-hover:text-white transition-all duration-500">
+                        <i class="fa-solid fa-music text-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-serif text-mocha-900 mb-3">Ritmo</h3>
+                    <p class="text-sm text-mocha-600 font-light leading-relaxed">Cadência que prende a atenção e evita a monotonia.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl border border-transparent hover:border-mocha-200 shadow-sm hover:shadow-lg transition-all duration-500 group">
+                    <div class="w-12 h-12 bg-nude-50 rounded-full flex items-center justify-center text-mocha-400 mb-6 group-hover:bg-mocha-800 group-hover:text-white transition-all duration-500">
+                        <i class="fa-solid fa-person-rays text-lg"></i>
+                    </div>
+                    <h3 class="text-xl font-serif text-mocha-900 mb-3">Presença</h3>
+                    <p class="text-sm text-mocha-600 font-light leading-relaxed">Ocupar o espaço e falar com intenção clara e poderosa.</p>
+                </div>
+            </div>
+            
+            <div class="mt-20 text-center">
+                <a href="#leadForm" class="inline-flex items-center gap-4 bg-mocha-800 hover:bg-mocha-900 text-white font-medium py-5 px-12 rounded-full transition-all shadow-xl shadow-mocha-900/10 hover:-translate-y-1 text-sm tracking-[0.15em] uppercase">
+                    Quero Dominar Minha Comunicação
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-nude-50 py-12 border-t border-nude-200 text-center text-mocha-400 text-sm">
+        <div class="container mx-auto px-4">
+            <div class="mb-6 opacity-50">
+                <i class="fa-solid fa-infinity text-2xl"></i>
+            </div>
+            <p class="font-light tracking-wide">&copy; 2024 Aula Secreta. Todos os direitos reservados.</p>
+            <p class="mt-4 text-xs text-nude-300">Este evento não possui vínculo com Facebook ou Instagram.</p>
+        </div>
+    </footer>
+
+    <!-- LOGICA SUPABASE + FORM -->
+    <script>
+        // Configuração do Supabase
+        const supabaseUrl = "https://hpscbdlksssmnazbqanz.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhwc2NiZGxrc3NzbW5hemJxYW56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0OTE3MTEsImV4cCI6MjA4MTA2NzcxMX0.iRo9leh6Q9geVU6sVeSqiLp0RD3q8Uv_Ip7bFvPAegA";
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            // Referências aos elementos
+            const btn = event.target.querySelector('button');
+            const originalBtnText = btn.innerHTML;
+            
+            // Estado de carregamento
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Garantindo Vaga...';
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // Captura valores
+            const name = document.querySelector("#name").value;
+            const email = document.querySelector("#email").value;
+            const phone = document.querySelector("#phone").value;
+
+            try {
+                // 1. Rastreamento (Pixel)
+                if(typeof fbq !== 'undefined') {
+                    fbq('track', 'Lead');
+                }
+
+                // 2. Salvar no Supabase
+                const { data, error } = await supabaseClient
+                    .from('lidera') 
+                    .insert([{ 
+                        nome: name, 
+                        email: email, 
+                        telefone: phone 
+                    }]);
+
+                if (error) throw error;
+
+                // 3. Sucesso Visual e Esconder Form
+                document.querySelector('#leadForm').style.display = 'none';
+                const header = document.querySelector('#formHeader');
+                if(header) header.style.display = 'none';
+
+                // Mostra a tela de sucesso
+                const successMsg = document.querySelector('#successMessage');
+                successMsg.classList.remove('hidden');
+                successMsg.classList.add('flex');
+
+                // 4. Redirecionamento com Fallback e Nova Aba
+                // Usamos window.open com '_blank' para evitar bloqueios de iframe
+                const waLink = "https://chat.whatsapp.com/JTvmxbWhPjRAIkvXwLurzD";
+                
+                setTimeout(() => {
+                    // Tenta abrir automaticamente em nova aba
+                    const newWindow = window.open(waLink, '_blank');
+                    
+                    // Se o bloqueador de popup impedir, o usuário ainda tem o botão na tela
+                    if(!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                        console.log("Popup bloqueado, usuário deve clicar no botão");
+                    }
+                }, 1500);
+
+            } catch (error) {
+                console.error("Erro Supabase:", error);
+                
+                // Tratamento específico para erro de tabela inexistente
+                if (error.code === 'PGRST205') {
+                    alert("ERRO DE BANCO DE DADOS: A tabela 'lidera' não foi encontrada.\n\nVocê precisa rodar o script SQL fornecido no Editor SQL do Supabase para criar a tabela.");
+                } else {
+                    alert("Erro ao realizar inscrição: " + (error.message || "Tente novamente."));
+                }
+                
+                // Restaura botão em caso de erro
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        }
+    </script>
+</body>
+</html>
