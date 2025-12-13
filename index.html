@@ -367,64 +367,56 @@
         async function handleSubmit(event) {
             event.preventDefault();
 
-            const btn = event.target.querySelector('button');
-            const originalBtnText = btn.innerHTML;
-            
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Garantindo Vaga...';
-            btn.disabled = true;
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
-
+            // 1. Capture Data
             const name = document.querySelector("#name").value;
             const email = document.querySelector("#email").value;
             const phone = document.querySelector("#phone").value;
 
-            try {
-                if(typeof fbq !== 'undefined') {
-                    fbq('track', 'Lead');
-                }
+            // 2. Feedback Visual Imediato (Optimistic UI)
+            // Não vamos esperar o Google Sheets responder para mostrar o sucesso
+            // Isso resolve a sensação de "demora"
+            const btn = event.target.querySelector('button');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Enviando...';
+            btn.disabled = true;
 
-                // Envia para o Google Sheets via Apps Script
-                // Usamos no-cors e text/plain para evitar erros de pré-voo (CORS) comuns no GAS
-                await fetch(scriptURL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'text/plain'
-                    },
-                    body: JSON.stringify({ 
-                        name: name, 
-                        email: email, 
-                        phone: phone 
-                    })
-                });
-
-                // Como usamos no-cors, não recebemos resposta legível, então assumimos sucesso se não cair no catch
-                document.querySelector('#leadForm').style.display = 'none';
-                const header = document.querySelector('#formHeader');
-                if(header) header.style.display = 'none';
-
-                const successMsg = document.querySelector('#successMessage');
-                successMsg.classList.remove('hidden');
-                successMsg.classList.add('flex');
-
-                const waLink = "https://chat.whatsapp.com/JTvmxbWhPjRAIkvXwLurzD";
-                
-                setTimeout(() => {
-                    const newWindow = window.open(waLink, '_blank');
-                    if(!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-                        console.log("Popup bloqueado, usuário deve clicar no botão");
-                    }
-                }, 1500);
-
-            } catch (error) {
-                console.error("Erro no envio:", error);
-                
-                alert("Ocorreu um erro ao realizar sua inscrição. Por favor, tente novamente.");
-                
-                btn.innerHTML = originalBtnText;
-                btn.disabled = false;
-                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            // Rastreamento
+            if(typeof fbq !== 'undefined') {
+                fbq('track', 'Lead');
             }
+
+            // 3. Enviar dados em segundo plano (Fire and Forget)
+            // keepalive: true ajuda a garantir que o envio termine mesmo se a aba fechar/trocar
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                keepalive: true, 
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify({ 
+                    name: name, 
+                    email: email, 
+                    phone: phone 
+                })
+            }).catch(err => console.error("Erro silencioso no envio:", err));
+
+            // 4. Transição de Tela Imediata
+            document.querySelector('#leadForm').style.display = 'none';
+            const header = document.querySelector('#formHeader');
+            if(header) header.style.display = 'none';
+
+            const successMsg = document.querySelector('#successMessage');
+            successMsg.classList.remove('hidden');
+            successMsg.classList.add('flex');
+
+            // 5. Redirecionamento (Resolvendo o bloqueio de popup)
+            // Como removemos o await, o contexto de "clique do usuário" ainda é válido aqui.
+            // O navegador não vai bloquear porque acontece milissegundos após o clique.
+            const waLink = "https://chat.whatsapp.com/JTvmxbWhPjRAIkvXwLurzD";
+            
+            setTimeout(() => {
+                window.open(waLink, '_blank');
+            }, 500); // Pequeno delay apenas visual, curto o suficiente para não perder o evento de clique
         }
     </script>
 </body>
