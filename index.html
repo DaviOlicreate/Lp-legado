@@ -22,9 +22,6 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-
     <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
@@ -35,8 +32,8 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    // fbq('init', '677613505365495'); // Comentado para evitar erros no preview se bloqueado
-    // fbq('track', 'PageView');
+    fbq('init', '677613505365495');
+    fbq('track', 'PageView');
     </script>
     <noscript>
     <img height="1" width="1" style="display:none"
@@ -170,7 +167,7 @@
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 text-mocha-800 text-sm font-medium tracking-wide">
                         <div class="flex items-center gap-3 bg-white/60 px-6 py-3 rounded-full border border-white shadow-sm backdrop-blur-sm">
                             <i class="fa-regular fa-calendar text-mocha-500 text-lg"></i>
-                            <span>16/12</span>
+                            <span>18/12</span>
                         </div>
                         <div class="flex items-center gap-3 bg-white/60 px-6 py-3 rounded-full border border-white shadow-sm backdrop-blur-sm">
                             <i class="fa-regular fa-clock text-mocha-500 text-lg"></i>
@@ -363,40 +360,9 @@
         </div>
     </footer>
 
-    <!-- AVISO LGPD -->
-    <section class="bg-black py-8 border-t border-gray-900">
-        <div class="container mx-auto px-4 max-w-5xl text-justify md:text-center">
-            <h5 class="text-gray-500 font-bold text-[10px] uppercase tracking-[0.2em] mb-4 text-center">Aviso de Privacidade e Conformidade LGPD</h5>
-            
-            <div class="text-[10px] md:text-xs text-gray-600 font-sans font-light leading-relaxed space-y-3">
-                <p>
-                    <strong class="text-gray-500">Transparência e Segurança:</strong> A sua privacidade é nossa prioridade. Este site e o evento "Aula Secreta" operam em estrita conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).
-                </p>
-                
-                <p>
-                    <strong class="text-gray-500">Coleta e Uso de Dados:</strong> Ao clicar no botão de inscrição, você autoriza a coleta do seu nome, e-mail e número de telefone. Estes dados têm a finalidade exclusiva de viabilizar sua participação no evento, permitindo o envio do link de acesso à aula, materiais de apoio didático e comunicações pertinentes ao seu desenvolvimento profissional e de carreira.
-                </p>
-                
-                <p>
-                    <strong class="text-gray-500">Seus Direitos:</strong> Seus dados jamais serão comercializados, alugados ou compartilhados com terceiros para fins publicitários sem o seu consentimento expresso. Você possui o direito absoluto de solicitar o acesso, correção ou a exclusão total dos seus dados de nossa base a qualquer momento, bem como de revogar o seu consentimento. Para exercer esses direitos, entre em contato através do nosso canal oficial de DPO.
-                </p>
-
-                <p>
-                    <strong class="text-gray-500">WhatsApp:</strong> A participação no Grupo VIP do WhatsApp é totalmente voluntária. Ao ingressar, você entende que seu número de telefone poderá ser visualizado pelos administradores do grupo para fins de gerenciamento e envio de avisos. Você é livre para sair do grupo a qualquer instante.
-                </p>
-
-                <p class="pt-2 border-t border-gray-900 mt-2 text-center text-gray-700">
-                    Ao prosseguir, você declara estar ciente e de acordo com nossos Termos e <span class="underline cursor-pointer hover:text-gray-500 transition-colors">[Política de Privacidade]</span>.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- LOGICA SUPABASE + FORM -->
+    <!-- LOGICA GOOGLE SHEETS + FORM -->
     <script>
-        const supabaseUrl = "https://hpscbdlksssmnazbqanz.supabase.co";
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhwc2NiZGxrc3NzbW5hemJxYW56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0OTE3MTEsImV4cCI6MjA4MTA2NzcxMX0.iRo9leh6Q9geVU6sVeSqiLp0RD3q8Uv_Ip7bFvPAegA";
-        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzcsRQSsDzWBr6w3B9B4Cf1YBC2HtZDF9wFdUCs2Ve0Qi3D-FP4GbIgGSxKXBvcu1hG/exec';
 
         async function handleSubmit(event) {
             event.preventDefault();
@@ -413,20 +379,26 @@
             const phone = document.querySelector("#phone").value;
 
             try {
-                // if(typeof fbq !== 'undefined') {
-                //     fbq('track', 'Lead');
-                // }
+                if(typeof fbq !== 'undefined') {
+                    fbq('track', 'Lead');
+                }
 
-                const { data, error } = await supabaseClient
-                    .from('lidera') 
-                    .insert([{ 
-                        nome: name, 
+                // Envia para o Google Sheets via Apps Script
+                // Usamos no-cors e text/plain para evitar erros de pré-voo (CORS) comuns no GAS
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    },
+                    body: JSON.stringify({ 
+                        name: name, 
                         email: email, 
-                        telefone: phone 
-                    }]);
+                        phone: phone 
+                    })
+                });
 
-                if (error) throw error;
-
+                // Como usamos no-cors, não recebemos resposta legível, então assumimos sucesso se não cair no catch
                 document.querySelector('#leadForm').style.display = 'none';
                 const header = document.querySelector('#formHeader');
                 if(header) header.style.display = 'none';
@@ -445,13 +417,9 @@
                 }, 1500);
 
             } catch (error) {
-                console.error("Erro Supabase:", error);
+                console.error("Erro no envio:", error);
                 
-                if (error.code === 'PGRST205') {
-                    alert("ERRO DE BANCO DE DADOS: A tabela 'lidera' não foi encontrada. Verifique o Supabase.");
-                } else {
-                    alert("Erro ao realizar inscrição: " + (error.message || "Tente novamente."));
-                }
+                alert("Ocorreu um erro ao realizar sua inscrição. Por favor, tente novamente.");
                 
                 btn.innerHTML = originalBtnText;
                 btn.disabled = false;
